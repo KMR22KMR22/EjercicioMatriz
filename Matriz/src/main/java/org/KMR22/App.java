@@ -35,15 +35,15 @@ public class App
 
     }
     //Rellenar array con numeros aleatorios
-    public void generarNumerosAleatorios() {
-        for (int i = 0; i < WIDTH; i++) {
-            int[] fila = arrayRandom[i];
-
-            for (int j = 0; j < HEIGTH; j++) {
-                fila[j] = new Random().nextInt(10);
-            }
-        }
-    }
+    //public void generarNumerosAleatorios() {
+    //    for (int i = 0; i < WIDTH; i++) {
+    //        int[] fila = arrayRandom[i];
+//
+    //        for (int j = 0; j < HEIGTH; j++) {
+    //            fila[j] = new Random().nextInt(10);
+    //        }
+    //    }
+    //}
 
     //public static void pintarMatriz(int[][] matrix){
     //    for (int i = 0; i < matrix.length; i++) {

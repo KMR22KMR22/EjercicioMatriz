@@ -3,6 +3,7 @@ package org.KMR22;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.Consumer;
 
 public class Ejercicios {
@@ -11,15 +12,23 @@ public class Ejercicios {
     public static final int HEIGTH = 10;
 
 
+
     public static void main(String[] args) {
+        Ejercicios ejercicios = new Ejercicios();
 
         int[][] arrayRandom = new int[WIDTH][HEIGTH];
+
+        //arrayRandom[0][0] = 1;
+
+        arrayRandom = ejercicios.generarNumerosAleatorios(arrayRandom);
+
+        pintarMatriz(arrayRandom);
 
 
     }
 
     //Rellenar array con numeros aleatorios
-    public void generarNumerosAleatorios(int[][] array) {
+    public int[][] generarNumerosAleatorios(int[][] array) {
         int[][] newArray = new int[array.length][array[0].length];
 
         int rangoSuperior;
@@ -28,7 +37,7 @@ public class Ejercicios {
         int valor = 0;
 
         for (int i = 0; i < WIDTH; i++) {
-            int[] fila = array[i];
+            int[] fila = newArray[i];
 
             for (int j = 0; j < HEIGTH; j++) {
                 //Calculo la media de los vecinos para tener el numero que va a variar con el alpha
@@ -36,15 +45,16 @@ public class Ejercicios {
                 rangoSuperior = valor + ALPHA;
                 rangoInferior = valor - ALPHA;
                 //Coloco un numero aleatorio en esa posicion teniendo en cuenta la variacion alpha
-                fila[j] = new Random().nextInt(rangoSuperior - rangoInferior + 1);
+                newArray[i][j] = new Random().nextInt(rangoInferior, rangoSuperior + 1);
 
             }
         }
+        return newArray;
     }
 
     public static void pintarMatriz(int[][] matrix) {
         pMatriz(matrix,
-                n -> System.out.println(String.format("%20d", n) + ""));
+                n -> System.out.print(String.format("%20d", n) + ""));
     }
 
     public static void pMatriz(int[][] matrix, Consumer<Integer> body) {
@@ -66,6 +76,9 @@ public class Ejercicios {
         int bordeDerecho = matriz[0].length - 1;
         int bordeSuperior = 0;
         int bordeInferior = matriz.length - 1;
+
+
+
 
 
         List<Integer> lista = new ArrayList<>();
@@ -120,7 +133,18 @@ public class Ejercicios {
         }
 
 
-        //Este sirve para cuadno quede en el centro o en el centro abajo o derecha abajo
+        //Abajo derecha
+        else if (i == bordeInferior && j == bordeDerecho) {
+            //Izquierda
+            lista.add(matriz[i][j - 1]);
+            //Arriba izquierda
+            lista.add(matriz[i - 1][j - 1]);
+            //Arriba
+            lista.add(matriz[i - 1][j]);
+        }
+
+
+        //Este sirve para cuadno quede en el centro o en el centro abajo
         else {
             //Arriba izquierda
             lista.add(matriz[i - 1][j - 1]);
@@ -132,13 +156,16 @@ public class Ejercicios {
             lista.add(matriz[i][j - 1]);
         }
 
-        for (int x = 0; x < lista.size(); x++) {
-            avg = avg + lista.get(x);
+        if (lista.size() == 0) {
+            return 0;
+        }else{
+            for (int x = 0; x < lista.size(); x++) {
+                avg = avg + lista.get(x);
+            }
+            avg = avg / lista.size();
+
+            return avg;
         }
-        avg = avg / lista.size();
-
-        return avg;
-
     }
 
 }
